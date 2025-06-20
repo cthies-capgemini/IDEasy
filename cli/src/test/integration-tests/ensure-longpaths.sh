@@ -2,8 +2,8 @@ echo "testing longpaths"
 if doIsWindows
 then
   echo "windows detected"
-  ls -a "$HOME" | echo
-  gitconfig_path="$HOME/.gitconfig"
+  $IDE -f install
+  gitconfig_path="$HOME"/.gitconfig
   echo "$gitconfig_path"
   fileContent=$(cat "$gitconfig_path")
   echo "gitconfig content is"
