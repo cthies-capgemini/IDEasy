@@ -5,6 +5,8 @@
 # Workaround to create license.agreement file and simulate a proper installation.
 mkdir -p "${HOME}"/.ide
 touch "${HOME}"/.ide/.license.agreement
+
+# simulate git installation
 touch "${HOME}"/.gitconfig
 
 source "$(dirname "${0}")"/all-tests-functions.sh

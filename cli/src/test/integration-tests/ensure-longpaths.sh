@@ -2,7 +2,7 @@ echo "testing longpaths"
 if doIsWindows
 then
   echo "windows detected"
-  ls -a "$HOME"
+  ls -a "$HOME" | echo
   gitconfig_path="$HOME/.gitconfig"
   echo "$gitconfig_path"
   fileContent=$(cat "$gitconfig_path")
