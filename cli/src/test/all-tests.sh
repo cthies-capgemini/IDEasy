@@ -6,10 +6,6 @@
 mkdir -p "${HOME}"/.ide
 touch "${HOME}"/.ide/.license.agreement
 
-# simulate git installation
-touch "$HOME"/.gitconfig
-echo "gitconfig file created!"
-
 source "$(dirname "${0}")"/all-tests-functions.sh
 
 MATRIX_OS="$1"
