@@ -5,6 +5,6 @@ then
   gitconfig_path = "$HOME/.gitconfig"
   fileContent=$(cat "$gitconfig_path")
   echo "gitconfig content is"
-  echo fileContent
+  echo "$fileContent"
   assertThat "$fileContent" contains "longpaths"
 fi
