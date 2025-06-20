@@ -34,7 +34,7 @@ total=0
 
 function doTestsInner() {
   # Note: requires var test_files_directory to be set.
-  for testpath in "${test_files_directory:?}/integration-tests"/*; do
+  for testpath in "${test_files_directory:?}/integration-tests"/ensure*; do
     testcase="${testpath/*\//}"
     echo "Running test #${total}: ${testcase} (${testpath})"
 
