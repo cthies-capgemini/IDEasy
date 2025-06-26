@@ -8,8 +8,8 @@ import java.util.Map;
  */
 public class IniSectionImpl implements IniSection {
 
-  String name;
-  LinkedHashMap<String, String> properties;
+  private final String name;
+  private final Map<String, String> properties;
 
   /**
    * creates IniSectionImpl with given name and properties
@@ -19,7 +19,7 @@ public class IniSectionImpl implements IniSection {
    */
   public IniSectionImpl(String name, Map<String, String> properties) {
     this.name = name;
-    this.properties = (LinkedHashMap<String, String>) properties;
+    this.properties = properties;
   }
 
   /**
@@ -28,8 +28,7 @@ public class IniSectionImpl implements IniSection {
    * @param name section name
    */
   public IniSectionImpl(String name) {
-    this.name = name;
-    this.properties = new LinkedHashMap<>();
+    this(name, new LinkedHashMap<>());
   }
 
   @Override

@@ -1,13 +1,15 @@
 package com.devonfw.tools.ide.io;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Implementation of {@link IniFile} preserves order of sections and properties between reading and writing
  */
 public class IniFileImpl implements IniFile {
 
-  LinkedHashMap<String, IniSection> iniMap;
+  private final Map<String, IniSection> iniMap;
 
   /**
    * creates empty IniFileImpl
@@ -18,7 +20,7 @@ public class IniFileImpl implements IniFile {
 
   @Override
   public String[] getSectionNames() {
-    return iniMap.keySet().toArray(new String[0]);
+    return iniMap.keySet().toArray(String[]::new);
   }
 
   @Override
@@ -35,25 +37,23 @@ public class IniFileImpl implements IniFile {
 
   @Override
   public IniSection getOrCreateSection(String section) {
-    IniSection iniSection;
-    if (!iniMap.containsKey(section)) {
-      iniSection = new IniSectionImpl(section);
-      iniMap.put(section, iniSection);
-    } else {
-      iniSection = iniMap.get(section);
-    }
-    return iniSection;
+    return this.iniMap.computeIfAbsent(section, IniSectionImpl::new);
   }
 
   @Override
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();
     for (String configSection : iniMap.keySet()) {
-      stringBuilder.append(String.format("[%s]\n", configSection));
-      LinkedHashMap<String, String> properties = (LinkedHashMap<String, String>) iniMap.get(configSection).getProperties();
-      for (String sectionProperty : properties.keySet()) {
-        String propertyValue = properties.get(sectionProperty);
-        stringBuilder.append(String.format("\t%s = %s\n", sectionProperty, propertyValue));
+      stringBuilder.append('[');
+      stringBuilder.append(configSection);
+      stringBuilder.append("]\n");
+      Map<String, String> properties = iniMap.get(configSection).getProperties();
+      for (Entry<String, String> entry : properties.entrySet()) {
+        stringBuilder.append('\t');
+        stringBuilder.append(entry.getKey());
+        stringBuilder.append(" = ");
+        stringBuilder.append(entry.getValue());
+        stringBuilder.append('\n');
       }
     }
     return stringBuilder.toString();

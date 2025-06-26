@@ -46,6 +46,7 @@ import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.ArchiveInputStream;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+import org.jline.utils.Log;
 
 import com.devonfw.tools.ide.cli.CliException;
 import com.devonfw.tools.ide.cli.CliOfflineException;
@@ -1113,25 +1114,24 @@ public class FileAccessImpl implements FileAccess {
 
   @Override
   public void readIniFile(Path file, IniFile iniFile) {
-    String content = readFileContent(file);
-    if (content == null) {
-      return;
-    }
-    List<String> iniLines = content.lines().toList();
-    String currentSectionName = "";
+    List<String> iniLines = readFileLines(file);
+    IniSection currentIniSection = null;
     for (String line : iniLines) {
       if (line.isEmpty()) {
         continue;
       }
       if (line.startsWith("[")) {
-        currentSectionName = line.replace("[", "").replace("]", "");
-        iniFile.getOrCreateSection(currentSectionName);
+        String sectionName = line.replace("[", "").replace("]", "");
+        currentIniSection = iniFile.getOrCreateSection(sectionName);
       } else {
         String[] parts = line.split("=");
         String propertyName = parts[0].trim();
         String propertyValue = parts[1].trim();
-        IniSection iniSection = iniFile.getOrCreateSection(currentSectionName);
-        iniSection.getProperties().put(propertyName, propertyValue);
+        if (currentIniSection == null) {
+          Log.warn("Invalid ini-file with property {} before section", propertyName);
+        } else {
+          currentIniSection.getProperties().put(propertyName, propertyValue);
+        }
       }
     }
   }
