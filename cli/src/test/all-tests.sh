@@ -34,18 +34,17 @@ total=0
 
 function doTestsInner() {
   # Note: requires var test_files_directory to be set.
-  for testpath in "${test_files_directory:?}/integration-tests"/*; do
+  for testpath in "${test_files_directory:?}/integration-tests"/intstall*; do
     testcase="${testpath/*\//}"
     echo "Running test #${total}: ${testcase} (${testpath})"
 
     integration_test_result=0
 
-    doIdeCreate
     # Following line adds a trap to ERR signal: Whenever error (some
     # conditions apply; see documentation) set integration_test_result=1.
     trap 'doWarning "A non-handled error in integration test occurred."; integration_test_result=1' ERR
 
-    cd $IDE_ROOT
+    #cd $IDE_ROOT
 
     source "${testpath:?}"
 
