@@ -1,4 +1,6 @@
 echo "Running install intellij integration test"
+echo $(pwd)
+pwd
 ide -d install intellij
 
 assertThat "${IDE_ROOT}/${TEST_PROJECT_NAME}/software/intellij/.ide.software.version" exists
