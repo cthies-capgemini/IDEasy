@@ -44,7 +44,8 @@ function doTestsInner() {
     # conditions apply; see documentation) set integration_test_result=1.
     trap 'doWarning "A non-handled error in integration test occurred."; integration_test_result=1' ERR
 
-    doIdeCreate "${testpath}"
+    doIdeCreateCleanup
+    doIdeCreate
 
     source "${testpath:?}"
 
