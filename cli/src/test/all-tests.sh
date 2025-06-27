@@ -44,7 +44,6 @@ function doTestsInner() {
     # conditions apply; see documentation) set integration_test_result=1.
     trap 'doWarning "A non-handled error in integration test occurred."; integration_test_result=1' ERR
 
-    doIdeCreateCleanup
     doIdeCreate
 
     source "${testpath:?}"
@@ -64,6 +63,7 @@ function doTestsInner() {
       ((failure++))
       echo -e "\033[91m[ERROR] Failed running test #${total}: ${testcase} - exit code ${integration_test_result}\033[39m" >> "${TEST_RESULTS_FILE:?}"
     fi
+    doIdeCreateCleanup
     ((total++))
   done
 }
